@@ -42,7 +42,11 @@ Example format:
 
     const result = await model.generateContent(geminiPrompt);
     const response = await result.response;
+
+    console.log('Full Gemini API response object:', JSON.stringify(response, null, 2));
+
     let text = response.text();
+    console.log('Gemini response text() result:', text);
 
     // Attempt to parse JSON if it's a decomposition request
     if (type === 'decompose') {
