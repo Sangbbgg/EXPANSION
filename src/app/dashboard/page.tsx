@@ -239,7 +239,7 @@ ${cmd.command}
       <LivePreviewModal
         isOpen={isLivePreviewOpen}
         onClose={() => setLivePreviewOpen(false)}
-        previewUrl="https://www.google.com/" // Placeholder URL
+        previewUrl="https://example.com/" // Placeholder URL
       />
 
       <div className="flex flex-col md:flex-row justify-between items-start md:items-center">
