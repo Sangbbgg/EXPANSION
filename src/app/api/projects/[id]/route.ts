@@ -6,7 +6,7 @@ export async function GET(
   request: NextRequest,
   context: { params: Promise<{ id: string; }> } // Changed type from { params: { id: string } }
 ) {
-  const { id } = context.params;
+  const { id } = await context.params;
   try {
     const { data: project, error } = await supabase
       .from('projects')
@@ -34,7 +34,7 @@ export async function PUT(
   request: NextRequest,
   context: { params: Promise<{ id: string; }> } // Changed type from { params: { id: string } }
 ) {
-  const { id } = context.params;
+  const { id } = await context.params;
   try {
     const updatedProjectData = await request.json();
 
@@ -65,7 +65,7 @@ export async function DELETE(
   request: NextRequest,
   context: { params: Promise<{ id: string; }> } // Changed type from { params: { id: string } }
 ) {
-  const { id } = context.params;
+  const { id } = await context.params;
   try {
     const { error, count } = await supabase
       .from('projects')
