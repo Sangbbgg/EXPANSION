@@ -54,16 +54,16 @@ const ProjectManager: React.FC = () => {
 
   return (
     <div className="p-4 md:p-8">
-      <h1 className="text-2xl md:text-3xl font-bold mb-6">Project Management</h1>
+      <h1 className="text-2xl md:text-3xl font-bold mb-6 text-foreground">Project Management</h1>
 
       {/* Create New Project */}
       <div className="bg-background p-4 rounded-lg shadow-md mb-6">
-        <h2 className="text-xl font-semibold mb-4">Create New Project</h2>
+        <h2 className="text-xl font-semibold mb-4 text-foreground">Create New Project</h2>
         <div className="flex flex-col sm:flex-row">
           <input
             type="text"
             placeholder="Enter project name"
-            className="flex-1 p-3 border border-gray-300 rounded-lg sm:rounded-l-lg sm:rounded-r-none focus:outline-none focus:ring-2 focus:ring-blue-500 mb-2 sm:mb-0"
+            className="flex-1 p-3 border border-gray-300 rounded-lg sm:rounded-l-lg sm:rounded-r-none focus:outline-none focus:ring-2 focus:ring-blue-500 mb-2 sm:mb-0 text-foreground"
             value={newProjectName}
             onChange={(e) => setNewProjectName(e.target.value)}
             onKeyPress={(e) => {
@@ -83,9 +83,9 @@ const ProjectManager: React.FC = () => {
 
       {/* Project List */}
       <div className="bg-background p-4 rounded-lg shadow-md">
-        <h2 className="text-xl font-semibold mb-4">Your Projects</h2>
+        <h2 className="text-xl font-semibold mb-4 text-foreground">Your Projects</h2>
         {projects.length === 0 ? (
-          <p>No projects created yet. Create one above!</p>
+          <p className="text-foreground">No projects created yet. Create one above!</p>
         ) : (
           <ul>
             {projects.map((project) => (
@@ -95,7 +95,7 @@ const ProjectManager: React.FC = () => {
                 onClick={() => handleSelectProject(project.id)}
               >
                 <div className="mb-2 sm:mb-0">
-                  <p className="font-medium text-lg">{project.name}</p>
+                  <p className="font-medium text-lg text-foreground">{project.name}</p>
                   <p className={`text-sm ${
                     project.status === 'Completed' ? 'text-green-600' :
                     project.status === 'Development' ? 'text-blue-600' :

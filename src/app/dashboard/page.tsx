@@ -204,7 +204,7 @@ ${cmd.command}
 
   if (!currentProject) {
     return (
-      <div className="flex flex-col h-full items-center justify-center">
+      <div className="flex flex-col h-full items-center justify-center text-foreground">
         <p className="text-xl">Loading project or project not found...</p>
         <button onClick={() => router.push('/projects')} className="mt-4 px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600">
           Go to Projects
@@ -214,7 +214,7 @@ ${cmd.command}
   }
 
   return (
-    <div className="flex flex-col h-full p-4 md:p-8">
+    <div className="flex flex-col h-full p-4 md:p-8 text-foreground">
       <CheckpointModal
         isOpen={isCheckpointOpen}
         onApprove={() => {
@@ -249,11 +249,11 @@ ${cmd.command}
           <h2 className="text-xl md:text-2xl font-bold mb-4">AI Chat Interface</h2>
           <div className="flex-grow bg-background p-4 rounded-lg shadow-md mb-6 overflow-y-auto flex flex-col message-log-area">
             {chatMessages.length === 0 ? (
-              <p>Start a conversation with AI for {currentProject.name}...</p>
+              <p className="text-foreground">Start a conversation with AI for {currentProject.name}...</p>
             ) : (
               chatMessages.map((msg) => (
                 <div key={msg.id} className={`mb-2 ${msg.sender === 'user' ? 'text-right' : 'text-left'}`}>
-                  <span className={`inline-block p-2 rounded-lg ${msg.sender === 'user' ? 'bg-blue-500 text-white' : 'bg-gray-200 dark:bg-gray-700'}`}>
+                  <span className={`inline-block p-2 rounded-lg ${msg.sender === 'user' ? 'bg-blue-500 text-white' : 'bg-gray-200 dark:bg-gray-700 text-foreground'}`}>
                     <strong>{msg.sender === 'user' ? 'You' : 'AI'}:</strong> {msg.text}
                   </span>
                 </div>
@@ -264,7 +264,7 @@ ${cmd.command}
             <input
               type="text"
               placeholder="Type 'major change' to trigger a checkpoint..."
-              className="flex-1 p-3 border border-gray-300 rounded-l-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className="flex-1 p-3 border border-gray-300 rounded-l-lg focus:outline-none focus:ring-2 focus:ring-blue-500 text-foreground"
               value={input}
               onChange={(e) => setInput(e.target.value)}
               onKeyPress={(e) => {
