@@ -1,0 +1,77 @@
+[
+  {
+    "id": "proj-1769671181868",
+    "name": "게시판 만들기",
+    "status": "Planning",
+    "chatHistory": [
+      {
+        "id": 1769672183959,
+        "sender": "ai",
+        "text": "Action approved. Continuing..."
+      },
+      {
+        "id": 1769672244962,
+        "sender": "ai",
+        "text": "Action approved. Continuing..."
+      },
+      {
+        "id": 1769672724310,
+        "sender": "user",
+        "text": "?"
+      },
+      {
+        "id": 1769672724677,
+        "sender": "ai"
+      },
+      {
+        "id": 1769672740104,
+        "sender": "user",
+        "text": "/help"
+      },
+      {
+        "id": 1769672740206,
+        "sender": "ai"
+      },
+      {
+        "id": 1769672752840,
+        "sender": "user",
+        "text": "아무 대답도 할 수 없는거야?"
+      },
+      {
+        "id": 1769672753016,
+        "sender": "ai"
+      },
+      {
+        "id": 1769672760994,
+        "sender": "ai",
+        "text": "Action approved. Continuing..."
+      },
+      {
+        "id": 1769672767601,
+        "sender": "user",
+        "text": "하이"
+      },
+      {
+        "id": 1769672767692,
+        "sender": "ai"
+      }
+    ],
+    "logs": [
+      "[USER] Checkpoint approved. Proceeding with the action.",
+      "[USER] Checkpoint approved. Proceeding with the action.",
+      "[USER] ?",
+      "[INFO] Sending prompt to Gemini: \"?\"",
+      "[AI] Response from Gemini: undefined",
+      "[USER] /help",
+      "[INFO] Sending prompt to Gemini: \"/help\"",
+      "[AI] Response from Gemini: undefined",
+      "[USER] 아무 대답도 할 수 없는거야?",
+      "[INFO] Sending prompt to Gemini: \"아무 대답도 할 수 없는거야?\"",
+      "[AI] Response from Gemini: undefined",
+      "[USER] Checkpoint approved. Proceeding with the action.",
+      "[USER] 하이",
+      "[INFO] Sending prompt to Gemini: \"하이\"",
+      "[AI] Response from Gemini: undefined"
+    ]
+  }
+]
