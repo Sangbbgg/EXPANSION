@@ -4,7 +4,7 @@ import { supabase } from '../../../../lib/supabase'; // Adjust path as needed
 // GET handler to retrieve a single project by ID from Supabase
 export async function GET(
   request: NextRequest,
-  context: any // Changed type from { params: { id: string } }
+  context: { params: { id: string } } // Changed type from { params: { id: string } }
 ) {
   const { id } = context.params;
   try {
@@ -18,13 +18,13 @@ export async function GET(
       if (error.code === 'PGRST116') { // Supabase error code for 'no rows found'
         return NextResponse.json({ message: 'Project not found' }, { status: 404 });
       }
-      console.error('Supabase GET error:', error);
+      console.error('Supabase GET error:', error, error.stack);
       return NextResponse.json({ message: 'Error fetching project from Supabase', error: error.message }, { status: 500 });
     }
 
     return NextResponse.json(project);
   } catch (error: any) {
-    console.error('API GET error:', error);
+    console.error('API GET error:', error, error.stack);
     return NextResponse.json({ message: 'Internal Server Error', error: error.message }, { status: 500 });
   }
 }
@@ -32,7 +32,7 @@ export async function GET(
 // PUT handler to update a project by ID in Supabase
 export async function PUT(
   request: NextRequest,
-  context: any // Changed type from { params: { id: string } }
+  context: { params: { id: string } } // Changed type from { params: { id: string } }
 ) {
   const { id } = context.params;
   try {
@@ -63,7 +63,7 @@ export async function PUT(
 // DELETE handler to delete a project by ID from Supabase
 export async function DELETE(
   request: NextRequest,
-  context: any // Changed type from { params: { id: string } }
+  context: { params: { id: string } } // Changed type from { params: { id: string } }
 ) {
   const { id } = context.params;
   try {
