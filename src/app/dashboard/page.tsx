@@ -267,7 +267,7 @@ ${cmd.command}
         {/* Left Column: Chat Interface */}
         <div className="flex flex-col md:w-1/2 h-full">
           <h2 className="text-xl md:text-2xl font-bold mb-4">AI Chat Interface</h2>
-          <div className="flex-grow bg-background p-4 rounded-lg shadow-md mb-6 overflow-y-auto flex flex-col message-log-area">
+          <div className="h-[400px] bg-background p-4 rounded-lg shadow-md mb-6 overflow-y-auto flex flex-col message-log-area text-sm">
             {chatMessages.length === 0 ? (
               <p className="text-foreground">Start a conversation with AI for {currentProject.name}...</p>
             ) : (
