@@ -1,75 +1,91 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { promises as fs } from 'fs';
-import path from 'path';
+import { supabase } from '../../../../lib/supabase'; // Adjust path as needed
 
-// Define the path to the JSON file
-const projectsFilePath = path.join(process.cwd(), 'data', 'projects.json');
-
-// Define the Project type, consistent with the frontend
-interface Project {
-  id: string;
-  name: string;
-  status: 'Planning' | 'Development' | 'Testing' | 'Deployment' | 'Completed';
-  chatHistory: { id: number, sender: 'user' | 'ai', text: string }[];
-  logs: string[];
-}
-
-// Helper function to read projects from the file
-async function getProjects(): Promise<Project[]> {
-  try {
-    const data = await fs.readFile(projectsFilePath, 'utf8');
-    return JSON.parse(data);
-  } catch (error) {
-    return [];
-  }
-}
-
-// Helper function to write projects to the file
-async function saveProjects(projects: Project[]): Promise<void> {
-  await fs.writeFile(projectsFilePath, JSON.stringify(projects, null, 2), 'utf8');
-}
-
-// GET handler to retrieve a single project by ID
+// GET handler to retrieve a single project by ID from Supabase
 export async function GET(
   request: NextRequest,
-  context: any
+  context: any // Changed type from { params: { id: string } }
 ) {
-  const { id } = await context.params;
+  const { id } = context.params;
   try {
-    const projects = await getProjects();
-    const project = projects.find(p => p.id === id);
+    const { data: project, error } = await supabase
+      .from('projects')
+      .select('*')
+      .eq('id', id)
+      .single(); // Expect a single row
 
-    if (project) {
-      return NextResponse.json(project);
-    } else {
-      return NextResponse.json({ message: 'Project not found' }, { status: 404 });
+    if (error) {
+      if (error.code === 'PGRST116') { // Supabase error code for 'no rows found'
+        return NextResponse.json({ message: 'Project not found' }, { status: 404 });
+      }
+      console.error('Supabase GET error:', error);
+      return NextResponse.json({ message: 'Error fetching project from Supabase', error: error.message }, { status: 500 });
     }
-  } catch (error) {
-    return NextResponse.json({ message: 'Error reading project' }, { status: 500 });
+
+    return NextResponse.json(project);
+  } catch (error: any) {
+    console.error('API GET error:', error);
+    return NextResponse.json({ message: 'Internal Server Error', error: error.message }, { status: 500 });
   }
 }
 
-// PUT handler to update a project by ID
+// PUT handler to update a project by ID in Supabase
 export async function PUT(
   request: NextRequest,
-  context: any
+  context: any // Changed type from { params: { id: string } }
 ) {
-  const { id } = await context.params;
+  const { id } = context.params;
   try {
-    const projects = await getProjects();
-    const projectIndex = projects.findIndex(p => p.id === id);
+    const updatedProjectData = await request.json();
 
-    if (projectIndex === -1) {
-      return NextResponse.json({ message: 'Project not found' }, { status: 404 });
+    const { data, error } = await supabase
+      .from('projects')
+      .update(updatedProjectData)
+      .eq('id', id)
+      .select(); // Return the updated data
+
+    if (error) {
+      console.error('Supabase PUT error:', error);
+      return NextResponse.json({ message: 'Error updating project in Supabase', error: error.message }, { status: 500 });
     }
 
-    const updatedProjectData = await request.json();
-    projects[projectIndex] = { ...projects[projectIndex], ...updatedProjectData };
-    
-    await saveProjects(projects);
+    if (!data || data.length === 0) {
+      return NextResponse.json({ message: 'Project not found for update' }, { status: 404 });
+    }
 
-    return NextResponse.json(projects[projectIndex]);
-  } catch (error) {
-    return NextResponse.json({ message: 'Error updating project' }, { status: 500 });
+    return NextResponse.json(data[0]);
+  } catch (error: any) {
+    console.error('API PUT error:', error);
+    return NextResponse.json({ message: 'Internal Server Error', error: error.message }, { status: 500 });
+  }
+}
+
+// DELETE handler to delete a project by ID from Supabase
+export async function DELETE(
+  request: NextRequest,
+  context: any // Changed type from { params: { id: string } }
+) {
+  const { id } = context.params;
+  try {
+    const { error, count } = await supabase
+      .from('projects')
+      .delete()
+      .eq('id', id);
+
+    if (error) {
+      console.error('Supabase DELETE error:', error);
+      return NextResponse.json({ message: 'Error deleting project from Supabase', error: error.message }, { status: 500 });
+    }
+
+    // Supabase delete doesn't return data, but we can check if a row was affected
+    // For .delete(), 'count' indicates number of rows deleted.
+    if (count === 0) {
+        return NextResponse.json({ message: 'Project not found for deletion' }, { status: 404 });
+    }
+
+    return NextResponse.json({ message: 'Project deleted successfully' }, { status: 200 });
+  } catch (error: any) {
+    console.error('API DELETE error:', error);
+    return NextResponse.json({ message: 'Internal Server Error', error: error.message }, { status: 500 });
   }
 }

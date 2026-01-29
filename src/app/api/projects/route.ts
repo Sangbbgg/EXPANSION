@@ -1,9 +1,5 @@
 import { NextResponse } from 'next/server';
-import { promises as fs } from 'fs';
-import path from 'path';
-
-// Define the path to the JSON file
-const projectsFilePath = path.join(process.cwd(), 'data', 'projects.json');
+import { supabase } from '../../../lib/supabase'; // Adjust path as needed
 
 // Define the Project type, consistent with the frontend
 interface Project {
@@ -14,33 +10,26 @@ interface Project {
   logs: string[];
 }
 
-// Helper function to read projects from the file
-async function getProjects(): Promise<Project[]> {
-  try {
-    const data = await fs.readFile(projectsFilePath, 'utf8');
-    return JSON.parse(data);
-  } catch (error) {
-    // If the file doesn't exist or is empty, return an empty array
-    return [];
-  }
-}
-
-// Helper function to write projects to the file
-async function saveProjects(projects: Project[]): Promise<void> {
-  await fs.writeFile(projectsFilePath, JSON.stringify(projects, null, 2), 'utf8');
-}
-
-// GET handler to retrieve all projects
+// GET handler to retrieve all projects from Supabase
 export async function GET() {
   try {
-    const projects = await getProjects();
+    const { data: projects, error } = await supabase
+      .from('projects') // Assuming a 'projects' table in Supabase
+      .select('*'); // Select all columns
+
+    if (error) {
+      console.error('Supabase GET error:', error);
+      return NextResponse.json({ message: 'Error fetching projects from Supabase', error: error.message }, { status: 500 });
+    }
+
     return NextResponse.json(projects);
-  } catch (error) {
-    return NextResponse.json({ message: 'Error reading projects' }, { status: 500 });
+  } catch (error: any) {
+    console.error('API GET error:', error);
+    return NextResponse.json({ message: 'Internal Server Error', error: error.message }, { status: 500 });
   }
 }
 
-// POST handler to create a new project
+// POST handler to create a new project in Supabase
 export async function POST(request: Request) {
   try {
     const { name } = await request.json();
@@ -48,21 +37,27 @@ export async function POST(request: Request) {
       return NextResponse.json({ message: 'Project name is required' }, { status: 400 });
     }
 
-    const projects = await getProjects();
-
-    const newProject: Project = {
-      id: `proj-${Date.now()}`,
+    const newProjectData: Omit<Project, 'id'> = { // Supabase will generate 'id'
       name: name,
       status: 'Planning',
       chatHistory: [],
       logs: [],
     };
 
-    projects.push(newProject);
-    await saveProjects(projects);
+    const { data, error } = await supabase
+      .from('projects') // Assuming a 'projects' table in Supabase
+      .insert([newProjectData])
+      .select(); // Return the inserted data
 
-    return NextResponse.json(newProject, { status: 201 });
-  } catch (error) {
-    return NextResponse.json({ message: 'Error creating project' }, { status: 500 });
+    if (error) {
+      console.error('Supabase POST error:', error);
+      return NextResponse.json({ message: 'Error creating project in Supabase', error: error.message }, { status: 500 });
+    }
+
+    // Supabase insert returns an array of inserted rows, pick the first one
+    return NextResponse.json(data[0], { status: 201 });
+  } catch (error: any) {
+    console.error('API POST error:', error);
+    return NextResponse.json({ message: 'Internal Server Error', error: error.message }, { status: 500 });
   }
 }

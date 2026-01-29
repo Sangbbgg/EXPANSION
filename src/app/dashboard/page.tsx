@@ -7,6 +7,7 @@ import ProjectStatusIndicator from '../../components/ProjectStatusIndicator';
 import CheckpointModal from '../../components/CheckpointModal';
 import { Project } from '../../components/ProjectManager';
 import { debounce } from 'lodash';
+import LivePreviewModal from '../../components/LivePreviewModal';
 
 interface ChatMessage {
   id: number;
@@ -30,6 +31,7 @@ export default function DashboardPage() {
   const [logs, setLogs] = useState<string[]>([]);
   const [currentStage, setCurrentStage] = useState<'Planning' | 'Development' | 'Testing' | 'Deployment' | 'Completed'>('Planning');
   const [isCheckpointOpen, setCheckpointOpen] = useState(false);
+  const [isLivePreviewOpen, setLivePreviewOpen] = useState(false);
 
   // Load project data on component mount or when projectId changes
   useEffect(() => {
@@ -233,11 +235,29 @@ ${cmd.command}
         <p className="mt-2 font-semibold">Action: Refactor the entire authentication system.</p>
       </CheckpointModal>
 
+      {/* Live Preview Modal */}
+      <LivePreviewModal
+        isOpen={isLivePreviewOpen}
+        onClose={() => setLivePreviewOpen(false)}
+        previewUrl="https://www.google.com/" // Placeholder URL
+      />
+
       <div className="flex flex-col md:flex-row justify-between items-start md:items-center">
         <h1 className="text-2xl md:text-3xl font-bold mb-4 md:mb-6">Dashboard: {currentProject.name}</h1>
-        <button onClick={() => setCheckpointOpen(true)} className="bg-yellow-500 text-white px-4 py-2 rounded-lg hover:bg-yellow-600 mb-4 md:mb-0">
-          Simulate Checkpoint
-        </button>
+        <div className="flex gap-4"> {/* Group buttons */}
+          <button
+            onClick={() => setCheckpointOpen(true)}
+            className="bg-yellow-500 text-white px-4 py-2 rounded-lg hover:bg-yellow-600 mb-4 md:mb-0"
+          >
+            Simulate Checkpoint
+          </button>
+          <button
+            onClick={() => setLivePreviewOpen(true)} // Button to open Live Preview
+            className="bg-green-500 text-white px-4 py-2 rounded-lg hover:bg-green-600 mb-4 md:mb-0"
+          >
+            Live Preview
+          </button>
+        </div>
       </div>
 
 
