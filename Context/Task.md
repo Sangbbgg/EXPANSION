@@ -15,7 +15,7 @@ Vercel에서 **404 에러**가 발생하는 것은 대개 기본 페이지(`app/
 ### [Phase 1: 기반 인프라 및 환경 구축]
 
 * [x] 1. `EXPANSION 프로젝트를 위한 Next.js 14(App Router) 기본 스켈레톤 코드를 생성하고 배포 환경을 설정해줘.`
-* [x] 2. Gemini API 연동을 위한 백엔드 Route Handler를 작성하고 환경 변수(GEMINI_API_KEY) 연결을 확인해줘.
+* [x] 2. `emini API 연동을 위한 백엔드 Route Handler를 작성하고 환경 변수(GEMINI_API_KEY) 연결을 확인해줘.`
 * [x] 3. `Tailwind CSS를 활용하여 대시보드의 기본 레이아웃(사이드바, 메인 컨텐츠 영역)을 구현해줘.`
 
 ### [Phase 2: 핵심 인터페이스 구현]
