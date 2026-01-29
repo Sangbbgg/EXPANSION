@@ -12,13 +12,6 @@
   }
 }
 
-@theme {
-  colors: {
-    background: 'var(--background)',
-    foreground: 'var(--foreground)',
-  }
-}
-
 body {
   background-color: var(--background);
   color: var(--foreground);
