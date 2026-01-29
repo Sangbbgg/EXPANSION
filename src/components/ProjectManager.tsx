@@ -54,16 +54,16 @@ const ProjectManager: React.FC = () => {
 
   return (
     <div className="p-4 md:p-8">
-      <h1 className="text-2xl md:text-3xl font-bold mb-6 text-black">Project Management</h1>
+      <h1 className="text-2xl md:text-3xl font-bold mb-6">Project Management</h1>
 
       {/* Create New Project */}
-      <div className="bg-white p-4 rounded-lg shadow-md mb-6">
-        <h2 className="text-xl font-semibold mb-4 text-black">Create New Project</h2>
+      <div className="bg-background p-4 rounded-lg shadow-md mb-6">
+        <h2 className="text-xl font-semibold mb-4">Create New Project</h2>
         <div className="flex flex-col sm:flex-row">
           <input
             type="text"
             placeholder="Enter project name"
-            className="flex-1 p-3 border border-gray-300 rounded-lg sm:rounded-l-lg sm:rounded-r-none focus:outline-none focus:ring-2 focus:ring-blue-500 mb-2 sm:mb-0 text-black"
+            className="flex-1 p-3 border border-gray-300 rounded-lg sm:rounded-l-lg sm:rounded-r-none focus:outline-none focus:ring-2 focus:ring-blue-500 mb-2 sm:mb-0"
             value={newProjectName}
             onChange={(e) => setNewProjectName(e.target.value)}
             onKeyPress={(e) => {
@@ -82,24 +82,24 @@ const ProjectManager: React.FC = () => {
       </div>
 
       {/* Project List */}
-      <div className="bg-white p-4 rounded-lg shadow-md">
-        <h2 className="text-xl font-semibold mb-4 text-black">Your Projects</h2>
+      <div className="bg-background p-4 rounded-lg shadow-md">
+        <h2 className="text-xl font-semibold mb-4">Your Projects</h2>
         {projects.length === 0 ? (
-          <p className="text-gray-800">No projects created yet. Create one above!</p>
+          <p>No projects created yet. Create one above!</p>
         ) : (
           <ul>
             {projects.map((project) => (
               <li
                 key={project.id}
-                className="flex flex-col sm:flex-row justify-between sm:items-center bg-gray-50 p-3 rounded-lg mb-2 hover:bg-gray-100 cursor-pointer"
+                className="flex flex-col sm:flex-row justify-between sm:items-center bg-gray-50 dark:bg-gray-800 p-3 rounded-lg mb-2 hover:bg-gray-100 dark:hover:bg-gray-700 cursor-pointer"
                 onClick={() => handleSelectProject(project.id)}
               >
                 <div className="mb-2 sm:mb-0">
-                  <p className="font-medium text-lg text-black">{project.name}</p>
+                  <p className="font-medium text-lg">{project.name}</p>
                   <p className={`text-sm ${
                     project.status === 'Completed' ? 'text-green-600' :
                     project.status === 'Development' ? 'text-blue-600' :
-                    'text-gray-700'
+                    'text-gray-500'
                   }`}>
                     Status: {project.status}
                   </p>

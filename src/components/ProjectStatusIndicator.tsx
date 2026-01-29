@@ -23,8 +23,8 @@ const ProjectStatusIndicator: React.FC<ProjectStatusIndicatorProps> = ({ current
   };
 
   return (
-    <div className="bg-white p-4 rounded-lg shadow-md mb-6">
-      <h2 className="text-xl font-semibold mb-4 text-black">Project Status</h2>
+    <div className="bg-background p-4 rounded-lg shadow-md mb-6">
+      <h2 className="text-xl font-semibold mb-4">Project Status</h2>
       <div className="flex justify-between items-center relative">
         {stages.map((stage, index) => (
           <React.Fragment key={stage}>
@@ -32,7 +32,7 @@ const ProjectStatusIndicator: React.FC<ProjectStatusIndicatorProps> = ({ current
               <div className={`w-8 h-8 rounded-full flex items-center justify-center text-white font-bold ${getStageColor(stage)}`}>
                 {index + 1}
               </div>
-              <p className="mt-2 text-sm text-black">{stage}</p>
+              <p className="mt-2 text-sm">{stage}</p>
             </div>
             {index < stages.length - 1 && (
               <div className={`flex-1 h-1 mx-2 ${getStageColor(stages[index + 1])}`}></div>
