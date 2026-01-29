@@ -4,7 +4,7 @@ import { supabase } from '../../../../lib/supabase'; // Adjust path as needed
 // GET handler to retrieve a single project by ID from Supabase
 export async function GET(
   request: NextRequest,
-  context: { params: { id: string } } // Changed type from { params: { id: string } }
+  context: { params: Promise<{ id: string; }> } // Changed type from { params: { id: string } }
 ) {
   const { id } = context.params;
   try {
@@ -32,7 +32,7 @@ export async function GET(
 // PUT handler to update a project by ID in Supabase
 export async function PUT(
   request: NextRequest,
-  context: { params: { id: string } } // Changed type from { params: { id: string } }
+  context: { params: Promise<{ id: string; }> } // Changed type from { params: { id: string } }
 ) {
   const { id } = context.params;
   try {
@@ -63,7 +63,7 @@ export async function PUT(
 // DELETE handler to delete a project by ID from Supabase
 export async function DELETE(
   request: NextRequest,
-  context: { params: { id: string } } // Changed type from { params: { id: string } }
+  context: { params: Promise<{ id: string; }> } // Changed type from { params: { id: string } }
 ) {
   const { id } = context.params;
   try {
